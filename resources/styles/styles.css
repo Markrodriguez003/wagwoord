@@ -125,15 +125,20 @@
    /* Chrome, Firefox, Opera, Safari 10.1+ */
    color: rgb(141, 141, 141) !important;
    opacity: 1;
+   text-align: center;
    /* Firefox */
  }
 
  .form-control:-ms-input-placeholder {
    /* Internet Explorer 10-11 */
+   text-align: center;
+
    color: rgb(141, 141, 141) !important;
  }
 
  .form-control::-ms-input-placeholder {
    /* Microsoft Edge */
+   text-align: center;
+
    color: rgb(141, 141, 141) !important;
  }
