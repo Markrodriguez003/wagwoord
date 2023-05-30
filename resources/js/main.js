@@ -49,20 +49,9 @@ $(document).ready(function () {
   };
 
 
+ 
 
-  const megaArr = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
-
-  /* RANDOM NUMBER */
-  var randoNum;
-
-  var scrambledBank = [];
-
-  /* GENERATED PASSWORD VAR */
-  var finalizedPass = [];
-  var finalPassword;
-
-  /* NUMBER OF CHARACTERS USER WOULD LIKE */
-  var userOptionNum = 4; //DEFAULT
+ 
 
   // COPY PASSWORD BUTTON
   const copyBtn = $('#copyBtn')
@@ -99,10 +88,6 @@ $(document).ready(function () {
   const simpleSymbolsChk = $('#simple-symbols');
   const complexSymbolsChk = $('#complex-symbols');
 
-
-
-
-
   //********************************************************
   //TOAST TRIGGER (GENERATE PASS, RESET PASS, ERROR STATE?)
   // GENERATE PASSWORD 
@@ -121,6 +106,8 @@ $(document).ready(function () {
 
         generatedPassText.text("Password Generated!");
         successToast.show();
+        generatePassword();
+
         // console.log("Password prefix --> " + prefix.val())
         // console.log("Password postfix --> " + postfix.val())
         // console.log("Password character # --> " + characterCount.val());
@@ -132,11 +119,65 @@ $(document).ready(function () {
         // console.log("*****************************************")
         // console.log("Checkbox are all checked? --> " + checkboxesLength);
         // console.log("*****************************************")
-        togValuesArr()
+        
 
       } else console.log("Error state --> None of the checkboxes are loaded!")
     })
   }
+
+// Array of character arrays
+  const combinedArrays = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
+
+  // GENERATES PASSWORD
+  function generatePassword(){
+    
+  /* USER CHECKBOX CHOICE ARRAY */
+    var optionsStateArray = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
+    var passwordOne = [];
+    /* WILL CYCLE THROUGH OPTIONS AND CALL FUNCTION TO PUSH RANDOM VALUE INTO FINAL PASS */
+    // CHANGE TO HIGH ORDER ARRAY METHOD
+    for (var i = 0; i < optionsStateArray.length; i++) {
+      if (optionsStateArray[i] === true)  {
+        console.log("This checkbox is true: " + optionsStateArray[i] + " --> So that means that is belongs to this const array: " + combinedArrays[i])
+        let randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
+        passwordOne.push(combinedArrays[i][randomNumber]);
+        // console.log("This is the random # " + randomNumber + " and this is the random character: " + combinedArrays[i][randomNumber]); 
+
+
+      }
+      
+
+ 
+console.log("THIS IS PASWORD: " + passwordOne);
+        
+    }
+
+  }
+
+
+  var randomizer = (arr) => {
+
+    randoNum = Math.floor(Math.random() * arr.length);
+    
+    finalizedPass.push(arr[randoNum]);
+ 
+
+    /* CREATES AN ARRAY OF RANDOMLY SELECTED CHARACTERS FROM THE ABOVE "TRUE" CHECKED ARRAY TYPES */
+    // AND SAVES IT TO ANOTHER SEPARATE ARRAY
+    for (var x = 0; x < 10; x++) {
+      randoNum = Math.floor(Math.random() * 10);
+      scrambledBank.push(arr[randoNum]);
+    }
+    passScrambler(characterCount.val());
+  }
+
+
+
+
+
+
+
+
 
   //********************************************************
   // RESET FORM BUTTON
@@ -156,106 +197,106 @@ $(document).ready(function () {
     characterCount.val(4)
     $('input[type=checkbox]').prop('checked', false);
     $('input[type=text]').val("");
+    // console.clear();
 
     /* GENERATED PASSWORD VARS */
-    scrambledBank = [];
-    finalizedPass = [];
-    finalPassword;
-
-    console.log("Password prefix --> " + prefix.val())
-    console.log("Password postfix --> " + postfix.val())
-    console.log("Password character # --> " + characterCount.val());
-    console.log("Upper checkbox checked? # --> " + uppercaseChk.prop('checked'));
-    console.log("Lower checkbox checked? # --> " + lowercaseChk.prop('checked'));
-    console.log("Numbers checkbox checked? # --> " + numbersChk.prop('checked'));
-    console.log("Simple Symbols checkbox checked? # --> " + simpleSymbolsChk.prop('checked'));
-    console.log("Complex Symbols checkbox checked? # --> " + complexSymbolsChk.prop('checked'));
+ 
+    // console.log("Password prefix --> " + prefix.val())
+    // console.log("Password postfix --> " + postfix.val())
+    // console.log("Password character # --> " + characterCount.val());
+    // console.log("Upper checkbox checked? # --> " + uppercaseChk.prop('checked'));
+    // console.log("Lower checkbox checked? # --> " + lowercaseChk.prop('checked'));
+    // console.log("Numbers checkbox checked? # --> " + numbersChk.prop('checked'));
+    // console.log("Simple Symbols checkbox checked? # --> " + simpleSymbolsChk.prop('checked'));
+    // console.log("Complex Symbols checkbox checked? # --> " + complexSymbolsChk.prop('checked'));
   })
 
 
   //********************************************************
   // PASSWORD GENERATING FUNCTIONS
   //********************************************************
-  function togValuesArr() {
-    /* USER CHECKBOX CHOICE ARRAY */
-    var chkOptions = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
 
-    /* WILL CYCLE THROUGH OPTIONS AND CALL FUNCTION TO PUSH RANDOM VALUE INTO FINAL PASS */
-    // CHANGE TO HIGH ORDER ARRAY METHOD
-    for (var i = 0; i < chkOptions.length; i++) {
-      if (chkOptions[i] === true) {
-        console.log("This checkbox is true: " + chkOptions[i] + " --> So that means that is belongs to this const array: " + megaArr[i]);
-        randomizer(megaArr[i]);
-      } else;
-      // pushPassToField();
-      // console.log("Pushing to password?")
-      console.log(`# final password --> ${finalizedPass}`);
-
-    }
-
-  }
-
-  var randomizer = (arr) => {
-
-    randoNum = Math.floor(Math.random() * arr.length);
-    console.log(`Random # choosen --> ${randoNum}`);
-    finalizedPass.push(arr[randoNum]);
-    console.log(`# This is the current password at the moment --> ${finalizedPass}`);
-
-    /* CREATES AN ARRAY OF RANDOMLY SELECTED CHARACTERS FROM THE ABOVE "TRUE" CHECKED ARRAY TYPES */
-    // AND SAVES IT TO ANOTHER SEPARATE ARRAY
-    for (var x = 0; x < 10; x++) {
-      randoNum = Math.floor(Math.random() * 10);
-      scrambledBank.push(arr[randoNum]);
-    }
-    passScrambler(characterCount.val());
-  }
-
-
-
-  function passScrambler(userOpNum) {
- 
-    for (var y = finalizedPass.length; y < userOpNum; y++) {
-      var r = Math.floor(Math.random() * userOpNum);
-      finalizedPass.push(scrambledBank[r]);
-    }
-
-      console.log("Password --> " + scrambledBank);
-
-    var currentIndex = finalizedPass.length
- 
-    var tmpVal;
-    var randoIndex;
-    while (0 !== currentIndex) {
-
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = finalizedPass[currentIndex];
-      finalizedPass[currentIndex] = finalizedPass[randomIndex];
-      finalizedPass[randomIndex] = temporaryValue;
-    }
-    console.log(`Scrambled Password: ${finalizedPass}`);
-    console.log(`Scrambled Password length: ${finalizedPass.length}`);
-
-
-    if (finalizedPass.length !== userOpNum) {
-      finalizedPass.pop();
-    } else return console.log("DONE!")
-
-    console.log(`Scrambled Password: ${finalizedPass}`);
-    pushPassToField();
-  }
-
-  function pushPassToField() {
-
-    finalPassword = finalizedPass.join("");
-
-    generatedPasswordDiv.val(finalPassword);
-
-
-  }
 
 });
 
 
+// OLD CODE
+  // function togValuesArr() {
+  //   /* USER CHECKBOX CHOICE ARRAY */
+  //   var chkOptions = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
+
+  //   /* WILL CYCLE THROUGH OPTIONS AND CALL FUNCTION TO PUSH RANDOM VALUE INTO FINAL PASS */
+  //   // CHANGE TO HIGH ORDER ARRAY METHOD
+  //   for (var i = 0; i < chkOptions.length; i++) {
+  //     if (chkOptions[i] === true) {
+  //       console.log("This checkbox is true: " + chkOptions[i] + " --> So that means that is belongs to this const array: " + megaArr[i]);
+  //       randomizer(megaArr[i]);
+  //     } else;
+  //     // pushPassToField();
+  //     // console.log("Pushing to password?")
+  //     console.log(`# final password --> ${finalizedPass}`);
+
+  //   }
+
+  // }
+
+  // var randomizer = (arr) => {
+
+  //   randoNum = Math.floor(Math.random() * arr.length);
+  //   console.log(`Random # choosen --> ${randoNum}`);
+  //   finalizedPass.push(arr[randoNum]);
+  //   console.log(`# This is the current password at the moment --> ${finalizedPass}`);
+
+  //   /* CREATES AN ARRAY OF RANDOMLY SELECTED CHARACTERS FROM THE ABOVE "TRUE" CHECKED ARRAY TYPES */
+  //   // AND SAVES IT TO ANOTHER SEPARATE ARRAY
+  //   for (var x = 0; x < 10; x++) {
+  //     randoNum = Math.floor(Math.random() * 10);
+  //     scrambledBank.push(arr[randoNum]);
+  //   }
+  //   passScrambler(characterCount.val());
+  // }
+
+
+
+  // function passScrambler(userOpNum) {
+ 
+  //   for (var y = finalizedPass.length; y < userOpNum; y++) {
+  //     var r = Math.floor(Math.random() * userOpNum);
+  //     finalizedPass.push(scrambledBank[r]);
+  //   }
+
+  //     console.log("Password --> " + scrambledBank);
+
+  //   var currentIndex = finalizedPass.length
+ 
+  //   var tmpVal;
+  //   var randoIndex;
+  //   while (0 !== currentIndex) {
+
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex -= 1;
+
+  //     temporaryValue = finalizedPass[currentIndex];
+  //     finalizedPass[currentIndex] = finalizedPass[randomIndex];
+  //     finalizedPass[randomIndex] = temporaryValue;
+  //   }
+  //   console.log(`Scrambled Password: ${finalizedPass}`);
+  //   console.log(`Scrambled Password length: ${finalizedPass.length}`);
+
+
+  //   if (finalizedPass.length !== userOpNum) {
+  //     finalizedPass.pop();
+  //   } else return console.log("DONE!")
+
+  //   console.log(`Scrambled Password: ${finalizedPass}`);
+  //   pushPassToField();
+  // }
+
+  // function pushPassToField() {
+
+  //   finalPassword = finalizedPass.join("");
+
+  //   generatedPasswordDiv.val(finalPassword);
+
+
+  // }
