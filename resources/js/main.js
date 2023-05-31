@@ -220,83 +220,74 @@ console.log("THIS IS PASWORD: " + passwordOne);
 });
 
 
-// OLD CODE
-  // function togValuesArr() {
-  //   /* USER CHECKBOX CHOICE ARRAY */
-  //   var chkOptions = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
+// UPDATED CODE <--- INSERT
+/*
 
-  //   /* WILL CYCLE THROUGH OPTIONS AND CALL FUNCTION TO PUSH RANDOM VALUE INTO FINAL PASS */
-  //   // CHANGE TO HIGH ORDER ARRAY METHOD
-  //   for (var i = 0; i < chkOptions.length; i++) {
-  //     if (chkOptions[i] === true) {
-  //       console.log("This checkbox is true: " + chkOptions[i] + " --> So that means that is belongs to this const array: " + megaArr[i]);
-  //       randomizer(megaArr[i]);
-  //     } else;
-  //     // pushPassToField();
-  //     // console.log("Pushing to password?")
-  //     console.log(`# final password --> ${finalizedPass}`);
+const alphaLower = 'abcdefghijklmnopqrstuvwxyz';
+const alphaUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const numbers = '0123456789';
+const simpleSymbols = '_!@#$%^&*?';
+const complexSymbols = '^()|{}[]<>/;:~`-=+"\',';
+var passwordOne = [];
+var scrambledExtraChars = [];
+const combinedArrays = [
+  alphaUpper,
+  alphaLower,
+  numbers,
+  simpleSymbols,
+  complexSymbols,
+];
+let randomNumber;
+let finalPassword;
+const passwordCharLength = 5;
 
-  //   }
+function generatePassword() {
+  var optionsStateArray = [true, true, true, true, true];
 
-  // }
+  for (var i = 0; i < optionsStateArray.length; i++) {
+    if (optionsStateArray[i] === true) {
+      //console.log("This checkbox is true: " + optionsStateArray[i] + " --> So that means that is belongs to this const array: " + combinedArrays[i])
+      // GRABS AT LEAST 1 CHARACTER FROM EACH CHECKED "TRUE" CHARACTER ARRAY SET
+      randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
+      passwordOne.push(combinedArrays[i][randomNumber]);
 
-  // var randomizer = (arr) => {
+      // CREATES A BANK OF EXTRA CHARACTERS PER CHECKED "TRUE" CHARACTER ARRAY
+      for (var x = 0; x < 10; x++) {
+        randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
+        scrambledExtraChars.push(combinedArrays[i][randomNumber]);
+      }
+    }
+  }
+  console.log('This is the scrambled array: ' + scrambledExtraChars.join(''));
+  scrambledExtraChars = shuffleArray(scrambledExtraChars);
+  console.log(
+    'This is the scrambled, SHUFFLED array: ' + scrambledExtraChars.join('')
+  );
 
-  //   randoNum = Math.floor(Math.random() * arr.length);
-  //   console.log(`Random # choosen --> ${randoNum}`);
-  //   finalizedPass.push(arr[randoNum]);
-  //   console.log(`# This is the current password at the moment --> ${finalizedPass}`);
+  let restPasswordLength = passwordCharLength- passwordOne.length;
+  for (let x = 0; x < restPasswordLength; x++) {
+    randomNumber = Math.floor(Math.random() * scrambledExtraChars.length);
+    passwordOne.push(scrambledExtraChars[randomNumber]);
+    finalPassword = passwordOne.join('');
+  }
+   
+}
 
-  //   /* CREATES AN ARRAY OF RANDOMLY SELECTED CHARACTERS FROM THE ABOVE "TRUE" CHECKED ARRAY TYPES */
-  //   // AND SAVES IT TO ANOTHER SEPARATE ARRAY
-  //   for (var x = 0; x < 10; x++) {
-  //     randoNum = Math.floor(Math.random() * 10);
-  //     scrambledBank.push(arr[randoNum]);
-  //   }
-  //   passScrambler(characterCount.val());
-  // }
+// TAKES ANY ARRAY AND SHUFFLES IT
+function shuffleArray(array) {
+  let shuffled = array
+    .map(value => ({
+      value,
+      sort: Math.random(),
+    }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
 
+  return shuffled;
+}
 
+generatePassword();
+console.log('THIS IS PASSWORD: ' + passwordOne.join(''));
 
-  // function passScrambler(userOpNum) {
+*/
  
-  //   for (var y = finalizedPass.length; y < userOpNum; y++) {
-  //     var r = Math.floor(Math.random() * userOpNum);
-  //     finalizedPass.push(scrambledBank[r]);
-  //   }
-
-  //     console.log("Password --> " + scrambledBank);
-
-  //   var currentIndex = finalizedPass.length
- 
-  //   var tmpVal;
-  //   var randoIndex;
-  //   while (0 !== currentIndex) {
-
-  //     randomIndex = Math.floor(Math.random() * currentIndex);
-  //     currentIndex -= 1;
-
-  //     temporaryValue = finalizedPass[currentIndex];
-  //     finalizedPass[currentIndex] = finalizedPass[randomIndex];
-  //     finalizedPass[randomIndex] = temporaryValue;
-  //   }
-  //   console.log(`Scrambled Password: ${finalizedPass}`);
-  //   console.log(`Scrambled Password length: ${finalizedPass.length}`);
-
-
-  //   if (finalizedPass.length !== userOpNum) {
-  //     finalizedPass.pop();
-  //   } else return console.log("DONE!")
-
-  //   console.log(`Scrambled Password: ${finalizedPass}`);
-  //   pushPassToField();
-  // }
-
-  // function pushPassToField() {
-
-  //   finalPassword = finalizedPass.join("");
-
-  //   generatedPasswordDiv.val(finalPassword);
-
-
-  // }
