@@ -245,7 +245,7 @@ function generatePassword() {
   var optionsStateArray = [true, true, true, true, true];
 
   for (var i = 0; i < optionsStateArray.length; i++) {
-    if (optionsStateArray[i] === true) {
+    if (optionsStateArray[i] === true) {it -m
       //console.log("This checkbox is true: " + optionsStateArray[i] + " --> So that means that is belongs to this const array: " + combinedArrays[i])
       // GRABS AT LEAST 1 CHARACTER FROM EACH CHECKED "TRUE" CHARACTER ARRAY SET
       randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
