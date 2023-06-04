@@ -1,5 +1,5 @@
-Neutralino.init(); // STARTS UP NEUTRALINO
 
+Neutralino.init(); // STARTS UP NEUTRALINO
 
 $(document).ready(function () {
 
@@ -10,51 +10,16 @@ $(document).ready(function () {
   // OTHER WORD OPTIONS 
   // https://www.robertecker.com/hp/research/leet-converter.php?lang=en
 
-  /* PASSWORD PIECES */
-  /// CHANGE VAR TO LET? 
-
+  /* PASSWORD CHAR PIECES */
   const alphaLower = "abcdefghijklmnopqrstuvwxyz";
   const alphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const numbers = "0123456789";
   const simpleSymbols = "_!@#$%^&*?";
   const complexSymbols = "^()|{}[]<>/;:~`-=+\"',";
   // "LEET or 1337 speak variant"
-  const leetSpeak = {
-    "a": "4",
-    "b": "13",
-    "c": "(",
-    "d": "[)",
-    "e": "3",
-    "f": "|=",
-    "g": "6",
-    "h": "|-|",
-    "i": "|",
-    "j": ".]",
-    "k": "|<",
-    "l": "1",
-    "M": "|Y|",
-    "n": "/V",
-    "o": "0",
-    "p": "|>",
-    "Q": "0,",
-    "R": "|2",
-    "S": "5",
-    "t": "7",
-    "u": "[_]",
-    "v": "\/",
-    "w": "\v/",
-    "x": "}{",
-    "y": "`/",
-    "z": "`2",
-  };
-
-
- 
-
- 
 
   // COPY PASSWORD BUTTON
-  const copyBtn = $('#copyBtn')
+  const copyBtn = $('#copy-button')
 
   // GENERATE PASSWORD BUTTON
   const generatePasswordTrigger = $('#generate-password-btn')
@@ -77,10 +42,14 @@ $(document).ready(function () {
   // GENERATED PASSWORD FIELD
   const generatedPasswordDiv = $('#generated-password-field')
 
+
+
   // FORM CONTROLS
   // PASSWORD CHARACTER # INPUT
   const prefix = $('#prefix');
+  const infix = $('#infix');
   const postfix = $('#postfix');
+  // const characterCountField = $('#pass-character-amount');
   const characterCount = $('#pass-character-amount');
   const uppercaseChk = $('#upper');
   const lowercaseChk = $('#lower');
@@ -88,92 +57,162 @@ $(document).ready(function () {
   const simpleSymbolsChk = $('#simple-symbols');
   const complexSymbolsChk = $('#complex-symbols');
 
+  const characterCountSimple = $('#pass-character-amount-simple');
+  let scrambledExtraChars = [];
+  let randomNumber;
+
+
+  //********************************************************
+  //CUSTOM NUMBER INPUT 
+  //********************************************************
+
+  // CUSTOM NUMBER INPUT
+  const maxPasswordCharVal = 15
+  const minPasswordCharVal = 5
+  const minusChar = $("#minus");
+  const addChar = $("#add");
+  // const numInputCustom = $('#password-char-amount-custom')
+
+  minusChar.click(() => {
+    console.log("You pressed the minus button!");
+
+    // if (Number(numInputCustom.val()) > minPasswordCharVal && Number(numInputCustom.val()) < maxPasswordCharVal) {
+    if (Number(characterCount.val()) > minPasswordCharVal) {
+      characterCount.val(Number(characterCount.val()) - 1);
+      console.log(`-Value: ${characterCount.val()}`)
+    }
+
+  })
+
+  addChar.click(() => {
+    console.log("You pressed the add button!")
+    // if (Number(numInputCustom.val()) > minPasswordCharVal && Number(numInputCustom.val()) < maxPasswordCharVal) {
+      if (Number(characterCount.val()) < maxPasswordCharVal) {
+        characterCount.val(Number(characterCount.val()) + 1);
+      console.log(`+Value: ${characterCount.val()}`)
+    }
+
+
+  })
+
+
+
+  // function inc(element) {
+  //   let el = document.querySelector(`[name="${element}"]`);
+  //   el.value = parseInt(el.value) + 1;
+  // }
+
+  // function dec(element) {
+  //   let el = document.querySelector(`[name="${element}"]`);
+  //   if (parseInt(el.value) > 0) {
+  //     el.value = parseInt(el.value) - 1;
+  //   }
+  // }
+
+
+
   //********************************************************
   //TOAST TRIGGER (GENERATE PASS, RESET PASS, ERROR STATE?)
-  // GENERATE PASSWORD 
   //********************************************************
   if (generatePasswordTrigger) {
-    const successToast = bootstrap.Toast.getOrCreateInstance(generatedPassToast);
-
-    // const checkboxesLength = $('input[type=checkbox]:checked').length;
-
+    // characterCount.val(characterCount.attr('placehAolder'));
+    characterCount.val(5);
     generatePasswordTrigger.click(() => {
-      const checkboxesLength = $('input[type=checkbox]:checked').length;
+      const successToast = bootstrap.Toast.getOrCreateInstance(generatedPassToast);
       if ($('input[type=checkbox]:checked').length > 0) {
-        console.log("*****************************************")
-        console.log("Password generated!")
-        console.log("*****************************************")
-
-        generatedPassText.text("Password Generated!");
         successToast.show();
-        generatePassword();
-
-        // console.log("Password prefix --> " + prefix.val())
-        // console.log("Password postfix --> " + postfix.val())
-        // console.log("Password character # --> " + characterCount.val());
-        // console.log("Upper checkbox checked? --> " + uppercaseChk.prop('checked'));
-        // console.log("Lower checkbox checked? --> " + lowercaseChk.prop('checked'));
-        // console.log("Numbers checkbox checked? --> " + numbersChk.prop('checked'));
-        // console.log("Simple Symbols checkbox checked? --> " + simpleSymbolsChk.prop('checked'));
-        // console.log("Complex Symbols checkbox checked? --> " + complexSymbolsChk.prop('checked'));
-        // console.log("*****************************************")
-        // console.log("Checkbox are all checked? --> " + checkboxesLength);
-        // console.log("*****************************************")
-        
-
+        generatePassword(characterCount.val());
       } else console.log("Error state --> None of the checkboxes are loaded!")
     })
   }
 
-// Array of character arrays
-  const combinedArrays = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
+  //********************************************************
+  //TOAST TRIGGER (GENERATE PASS, RESET PASS, ERROR STATE?)
+  //********************************************************
 
-  // GENERATES PASSWORD
-  function generatePassword(){
-    
-  /* USER CHECKBOX CHOICE ARRAY */
-    var optionsStateArray = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
-    var passwordOne = [];
-    /* WILL CYCLE THROUGH OPTIONS AND CALL FUNCTION TO PUSH RANDOM VALUE INTO FINAL PASS */
-    // CHANGE TO HIGH ORDER ARRAY METHOD
+  function generatePassword(charNumber) {
+    let tempPassword = [];
+    let finalPassword = [];
+    const combinedArrays = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
+    let optionsStateArray = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
+
     for (var i = 0; i < optionsStateArray.length; i++) {
-      if (optionsStateArray[i] === true)  {
-        console.log("This checkbox is true: " + optionsStateArray[i] + " --> So that means that is belongs to this const array: " + combinedArrays[i])
-        let randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
-        passwordOne.push(combinedArrays[i][randomNumber]);
-        // console.log("This is the random # " + randomNumber + " and this is the random character: " + combinedArrays[i][randomNumber]); 
-
-
+      if (optionsStateArray[i] === true) {
+        // GRABS AT LEAST 1 CHARACTER FROM EACH CHECKED "TRUE" CHARACTER ARRAY SET
+        randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
+        tempPassword.push(combinedArrays[i][randomNumber]);
+        // CREATES A BANK OF EXTRA CHARACTERS PER CHECKED "TRUE" CHARACTER ARRAY
+        // console.log("This is the temporary password: " + tempPassword.join("") )
+        for (var x = 0; x < 10; x++) {
+          randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
+          scrambledExtraChars.push(combinedArrays[i][randomNumber]);
+        }
       }
-      
-
- 
-console.log("THIS IS PASWORD: " + passwordOne);
-        
     }
 
+    scrambledExtraChars = shuffleArray(scrambledExtraChars);
+    let restPasswordLength = charNumber - tempPassword.length;
+    console.log("set password length? --> " + charNumber);
+    console.log("resetPasswordLength --> " + restPasswordLength);
+    console.log("tempPassword --> " + tempPassword.length);
+    if (restPasswordLength === 0) {
+      finalPassword = shuffleArray(tempPassword);
+
+    } else {
+      for (let x = 0; x < restPasswordLength; x++) {
+        randomNumber = Math.floor(Math.random() * scrambledExtraChars.length);
+        tempPassword.push(scrambledExtraChars[randomNumber]);
+        finalPassword = shuffleArray(tempPassword);
+      }
+    }
+
+    if (!infix.val()) {
+      generatedPasswordDiv.val((prefix.val() + finalPassword.join("") + postfix.val()).replace(/\s/g, ''));
+
+    } else {
+      //INFIX
+      let middleInt = Math.floor(finalPassword.length / 2);
+      console.log("Final password --> " + finalPassword.join(""));
+      console.log("No inffix! --> " + middleInt);
+      finalPassword.splice(middleInt, 0, infix.val());
+      generatedPasswordDiv.val((prefix.val() + finalPassword.join("") + postfix.val()).replace(/\s/g, ''));
+
+
+      // EVEN & ODD INFIX PASSWORD PLACEMENT (NOT NECESSARY FLUFF )
+      // if(finalPassword.length % 2 == 0 ){
+      //   console.log("even --> " + middleInt);
+      //   finalPassword.splice(middleInt, 1, infix.val());
+      //   console.log("New inffix password ---> " + finalPassword.join(""));
+
+      // } else {
+      //   console.log("odd --> " + middleInt )
+      //   finalPassword.splice(middleInt, 0, infix.val());
+      //   console.log("New inffix password ---> " + finalPassword.join(""));
+      // }
+    }
   }
 
 
-  var randomizer = (arr) => {
+  // TAKES ANY ARRAY AND SHUFFLES IT
+  function shuffleArray(array) {
+    let shuffled = array
+      .map(value => ({
+        value,
+        sort: Math.random(),
+      }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
 
-    randoNum = Math.floor(Math.random() * arr.length);
-    
-    finalizedPass.push(arr[randoNum]);
- 
-
-    /* CREATES AN ARRAY OF RANDOMLY SELECTED CHARACTERS FROM THE ABOVE "TRUE" CHECKED ARRAY TYPES */
-    // AND SAVES IT TO ANOTHER SEPARATE ARRAY
-    for (var x = 0; x < 10; x++) {
-      randoNum = Math.floor(Math.random() * 10);
-      scrambledBank.push(arr[randoNum]);
-    }
-    passScrambler(characterCount.val());
+    return shuffled;
   }
 
-
-
-
+  copyBtn.click(() => {
+    console.log("COPIED!")
+    generatedPasswordDiv.select();
+    // generatedPasswordDiv.setSelectionRange(0, 99999); // For mobile devices
+    navigator.clipboard.writeText(generatedPasswordDiv.val());
+    // alert("Copied the text: " + generatedPasswordDiv.value);
+  });
 
 
 
@@ -194,100 +233,29 @@ console.log("THIS IS PASWORD: " + passwordOne);
     console.log("*****************************************")
     console.log("Reset form button clicked!");
     console.log("*****************************************")
-    characterCount.val(4)
+    characterCount.val(5);
     $('input[type=checkbox]').prop('checked', false);
     $('input[type=text]').val("");
-    // console.clear();
+    console.clear();
 
-    /* GENERATED PASSWORD VARS */
- 
-    // console.log("Password prefix --> " + prefix.val())
-    // console.log("Password postfix --> " + postfix.val())
-    // console.log("Password character # --> " + characterCount.val());
-    // console.log("Upper checkbox checked? # --> " + uppercaseChk.prop('checked'));
-    // console.log("Lower checkbox checked? # --> " + lowercaseChk.prop('checked'));
-    // console.log("Numbers checkbox checked? # --> " + numbersChk.prop('checked'));
-    // console.log("Simple Symbols checkbox checked? # --> " + simpleSymbolsChk.prop('checked'));
-    // console.log("Complex Symbols checkbox checked? # --> " + complexSymbolsChk.prop('checked'));
   })
 
 
-  //********************************************************
-  // PASSWORD GENERATING FUNCTIONS
-  //********************************************************
+  // TAB DETECTION / TRIGGER
+  var tabEl = document.querySelectorAll('button[data-bs-toggle="pill"]')
+  //console.log(tabEl)
+  for (i = 0; i < tabEl.length; i++) {
+    tabEl[i].addEventListener('shown.bs.tab', function (event) {
+      const activated_pane = document.querySelector(event.target.getAttribute('data-bs-target'))
+      const deactivated_pane = document.querySelector(event.relatedTarget.getAttribute('data-bs-target'))
+
+      console.log(activated_pane.id)
+      console.log(deactivated_pane.id)
+    })
+  }
+
+
 
 
 });
 
-
-// UPDATED CODE <--- INSERT
-/*
-
-const alphaLower = 'abcdefghijklmnopqrstuvwxyz';
-const alphaUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const numbers = '0123456789';
-const simpleSymbols = '_!@#$%^&*?';
-const complexSymbols = '^()|{}[]<>/;:~`-=+"\',';
-var passwordOne = [];
-var scrambledExtraChars = [];
-const combinedArrays = [
-  alphaUpper,
-  alphaLower,
-  numbers,
-  simpleSymbols,
-  complexSymbols,
-];
-let randomNumber;
-let finalPassword;
-const passwordCharLength = 5;
-
-function generatePassword() {
-  var optionsStateArray = [true, true, true, true, true];
-
-  for (var i = 0; i < optionsStateArray.length; i++) {
-    if (optionsStateArray[i] === true) {it -m
-      //console.log("This checkbox is true: " + optionsStateArray[i] + " --> So that means that is belongs to this const array: " + combinedArrays[i])
-      // GRABS AT LEAST 1 CHARACTER FROM EACH CHECKED "TRUE" CHARACTER ARRAY SET
-      randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
-      passwordOne.push(combinedArrays[i][randomNumber]);
-
-      // CREATES A BANK OF EXTRA CHARACTERS PER CHECKED "TRUE" CHARACTER ARRAY
-      for (var x = 0; x < 10; x++) {
-        randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
-        scrambledExtraChars.push(combinedArrays[i][randomNumber]);
-      }
-    }
-  }
-  console.log('This is the scrambled array: ' + scrambledExtraChars.join(''));
-  scrambledExtraChars = shuffleArray(scrambledExtraChars);
-  console.log(
-    'This is the scrambled, SHUFFLED array: ' + scrambledExtraChars.join('')
-  );
-
-  let restPasswordLength = passwordCharLength- passwordOne.length;
-  for (let x = 0; x < restPasswordLength; x++) {
-    randomNumber = Math.floor(Math.random() * scrambledExtraChars.length);
-    passwordOne.push(scrambledExtraChars[randomNumber]);
-    finalPassword = passwordOne.join('');
-  }
-   
-}
-
-// TAKES ANY ARRAY AND SHUFFLES IT
-function shuffleArray(array) {
-  let shuffled = array
-    .map(value => ({
-      value,
-      sort: Math.random(),
-    }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
-
-  return shuffled;
-}
-
-generatePassword();
-console.log('THIS IS PASSWORD: ' + passwordOne.join(''));
-
-*/
- 

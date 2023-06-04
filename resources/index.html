@@ -25,9 +25,6 @@
 
   </div> -->
 
-
-
-
   <!-- TOP HEADER BAR -->
   <nav class="navbar flex-row-reverse bg-primary shadow top-header p-0 mb-2">
     <h1 class="navbar-brand float-end text-white p-1">
@@ -46,7 +43,8 @@
     <h6 class="display-6 text-center text-weight-bolder mt-3">
       PASSWORD GENERATOR
     </h6>
-    <!-- GENERATED PASSWORD -->
+
+    <!-- GENERATED PASSWORD FIELD-->
     <div class="input-group mb-2">
       <input type="text" class="form-control bg-black text-white" placeholder="Generated password will appear here"
         aria-label="generated-password" aria-describedby="" id="generated-password-field">
@@ -64,61 +62,129 @@
 
 
   <!-- PASSWORD GENERATION OPTIONS FORM -->
+  <!-- <label for="password-char-amount-custom-container"># of characters (5 - 15):</label>
+    <div id="password-char-amount-custom-container">
+      <button id="minus">-</button>
+      <input name="password-char-amount-custom" id="password-char-amount-custom" type="number" readonly value=5  max=15 min=5>
+      <button id="add">+</button>
+    </div>
+
+ -->
+
+
+
+  <!-- PASSWORD GENERATOR TABS  -->
   <div class="container form-control bg-black pt-0 text-bg-primary ">
-    <input type="text" class="form-control mb-2 mt-3 bg-dark text-white" placeholder="Add a word to the password"
-      aria-label="user-choice-word" aria-describedby="">
-    <div class="mb-2">
-      <label class="form-check-label " for="inlineRadio1">Complexity: </label>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-        <label class="form-check-label" for="inlineRadio1">Level-1</label>
+
+    <!-- TAB TOGGLES -->
+    <ul class="nav nav-pills bg-black m-3 border justify-content-center" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active text-white" id="simple-tab" data-bs-toggle="pill"
+          data-bs-target="#simple-tab-pane" type="button" role="tab" aria-controls="simple-tab-pane"
+          aria-selected="true">SIMPLE</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link text-white" id="word-tab" data-bs-toggle="pill" data-bs-target="#word-tab-pane"
+          type="button" role="tab" aria-controls="word-tab-pane" aria-selected="false">WORD</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link text-white" id="Custom-tab" data-bs-toggle="pill" data-bs-target="#Custom-tab-pane"
+          type="button" role="tab" aria-controls="Custom-tab-pane" aria-selected="false">CUSTOM</button>
+      </li>
+    </ul>
+
+
+    <!-- TAB CONTENT -->
+    <div class="tab-content" id="myTabContent">
+
+      <!-- SIMPLE PASSWORD GENERATION TAB -->
+      <div class="tab-pane fade show active mb-4" id="simple-tab-pane" role="tabpanel" aria-labelledby="simple-tab"
+        tabindex="0">
+        
+        <label for="pass-character-amount-simple"># of characters (5 - 15):</label>
+        <input type="number" id="pass-character-amount-simple" name="pass-character-amount-simple" min="5" max="15" placeholder="5">
+
+        <!-- <label for="pass-character-amount"># of characters (5 - 15):</label>
+        <div id="pass-character-amount">
+          <button id="minus">-</button>
+          <input name="pass-character-amount" id="pass-character-amount" type="number" readonly value=5 max=15 min=5>
+          <button id="add">+</button>
+        </div> -->
+
+
       </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-        <label class="form-check-label" for="inlineRadio2">Level-2</label>
+
+      <!-- WORD INSERT TAB -->
+      <div class="tab-pane fade" id="word-tab-pane" role="tabpanel" aria-labelledby="word-tab" tabindex="0">
+        <input type="text" class="form-control mb-2 mt-3 bg-dark text-white" placeholder="Add a word to the password"
+          aria-label="user-choice-word" aria-describedby="">
+        <div class="mb-2">
+          <label class="form-check-label " for="inlineRadio1">Complexity: </label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">Level-1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">Level-2</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">Level-3</label>
+          </div>
+        </div>
       </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-        <label class="form-check-label" for="inlineRadio2">Level-3</label>
+
+      <!-- CUSTOM PASSWORD GENERATOR TAB -->
+      <div class="tab-pane fade" id="Custom-tab-pane" role="tabpanel" aria-labelledby="Custom-tab" tabindex="0">
+        <!-- PRE/POST/INIX WORD INSERT FORM -->
+        <div class="input-group mb-2">
+          <input type="text" class="form-control bg-dark text-white" id="prefix" placeholder="Add a prefix"
+            aria-label="Add a prefix">
+          <input type="text" class="form-control bg-dark text-white" id="infix" placeholder="Add a infix"
+            aria-label="Add a infix">
+          <span class="input-group-text bg-black text-black"></span>
+          <input type="text" class="form-control bg-dark text-white" id="postfix" placeholder="Add a postfix"
+            aria-label="Add a postfix">
+        </div>
+
+        <!-- PASSWORD CHARACTER LENGTH -->
+        <div id="pass-character-amount-container">
+          <label for="pass-character-amount"><i><small># of characters (5 - 15)</i>:</small></label>
+          <button id="minus">-</button>
+          <input name="pass-character-amount" id="pass-character-amount" type="number" readonly value=5 max=15 min=5>
+          <button id="add">+</button>
+        </div>
+    
+
+        <!-- PASSWORD GENERATION CHECKBOX OPTIONS -->
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="upper" value="upper">
+          <label class="form-check-label" for="upper">Uppercase</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="lower" value="lower">
+          <label class="form-check-label" for="lower">Lowercase</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="numbers" value="numbers">
+          <label class="form-check-label" for="numbers">Numbers</label>
+        </div>
+        <br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="simple-symbols" value="simple-symbols">
+          <label class="form-check-label" for="simple-symbols">Simple Symbols</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="complex-symbols" value="complex-symbols">
+          <label class="form-check-label" for="complex-symbols">Complex Symbols</label>
+        </div>
+
+        <br>
       </div>
     </div>
 
-    <div class="input-group mb-2">
-      <input type="text" class="form-control bg-dark text-white" id="prefix" placeholder="Add a prefix"
-        aria-label="Add a prefix">
-      <!-- <span class="input-group-text bg-black text-grey-200"> <- Password -></span> -->
-      <span class="input-group-text bg-black text-black"></span>
-      <input type="text" class="form-control bg-dark text-white" id="postfix" placeholder="Add a postfix"
-        aria-label="Add a postfix">
-    </div>
-    <label for="pass-character-amount"># of characters (between 4 and 15):</label>
-    <input type="number" id="pass-character-amount" name="quantity" min="4" max="15" placeholder="4">
-    <br>
-    <!-- PASSWORD GENERATION CHECKBOX OPTIONS -->
 
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="upper" value="upper">
-      <label class="form-check-label" for="upper">Uppercase</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="lower" value="lower">
-      <label class="form-check-label" for="lower">Lowercase</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="numbers" value="numbers">
-      <label class="form-check-label" for="numbers">Numbers</label>
-    </div>
-    <br>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="simple-symbols" value="simple-symbols">
-      <label class="form-check-label" for="simple-symbols">Simple Symbols</label>
-    </div>
-    <div class="form-check form-check-inline">
-      <input class="form-check-input" type="checkbox" id="complex-symbols" value="complex-symbols">
-      <label class="form-check-label" for="complex-symbols">Complex Symbols</label>
-    </div>
-
-    <br>
 
     <!-- SUBMIT / RESET BUTTONS  -->
     <div class="d-flex justify-content-center">
@@ -142,7 +208,6 @@
       </button>
     </div>
   </div>
-
   <br>
 
   <!-- PASSWORD GENERATION TOAST ALERT -->

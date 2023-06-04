@@ -34,7 +34,7 @@
     "window": {
       "title": "WagWoord - Password Generator",
       "width": 600,
-      "height": 500,
+      "height": 468,
       "minWidth": 400,
       "minHeight": 200,
       "fullScreen": false,
