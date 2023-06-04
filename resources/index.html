@@ -91,6 +91,10 @@
         <button class="nav-link text-white" id="Custom-tab" data-bs-toggle="pill" data-bs-target="#Custom-tab-pane"
           type="button" role="tab" aria-controls="Custom-tab-pane" aria-selected="false">CUSTOM</button>
       </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link text-white" id="hash-tab" data-bs-toggle="pill" data-bs-target="#hash-tab-pane"
+          type="button" role="tab" aria-controls="hash-tab-pane" aria-selected="false">HASH</button>
+      </li>
     </ul>
 
 
@@ -100,9 +104,10 @@
       <!-- SIMPLE PASSWORD GENERATION TAB -->
       <div class="tab-pane fade show active mb-4" id="simple-tab-pane" role="tabpanel" aria-labelledby="simple-tab"
         tabindex="0">
-        
+
         <label for="pass-character-amount-simple"># of characters (5 - 15):</label>
-        <input type="number" id="pass-character-amount-simple" name="pass-character-amount-simple" min="5" max="15" placeholder="5">
+        <input type="number" id="pass-character-amount-simple" name="pass-character-amount-simple" min="5" max="15"
+          placeholder="5">
 
         <!-- <label for="pass-character-amount"># of characters (5 - 15):</label>
         <div id="pass-character-amount">
@@ -155,7 +160,7 @@
           <input name="pass-character-amount" id="pass-character-amount" type="number" readonly value=5 max=15 min=5>
           <button id="add">+</button>
         </div>
-    
+
 
         <!-- PASSWORD GENERATION CHECKBOX OPTIONS -->
         <div class="form-check form-check-inline">
@@ -179,8 +184,51 @@
           <input class="form-check-input" type="checkbox" id="complex-symbols" value="complex-symbols">
           <label class="form-check-label" for="complex-symbols">Complex Symbols</label>
         </div>
-
-        <br>
+      </div>
+      <!-- HASH TAB -->
+      <div class="tab-pane fade" id="hash-tab-pane" role="tabpanel" aria-labelledby="has-tab" tabindex="0">
+        <input type="text" class="form-control mb-2 mt-3 bg-dark text-white" placeholder="Enter passphrase to be hashed"
+          aria-label="hash-choice-word" aria-describedby="">
+        <div class="mb-2">
+          <label class="form-check-label " for="inlineRadio1">Hash type: </label>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">SHA-512</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+            <label class="form-check-label" for="inlineRadio1">SHA-384</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">SHA-256</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+            <label class="form-check-label" for="inlineRadio2">SHA-1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">MD-5</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">MD-4</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">CRC32</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">CRC32b</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+            <label class="form-check-label" for="inlineRadio3">RIPEMD160</label>
+          </div>
+     
+        </div>
       </div>
     </div>
 
@@ -212,8 +260,9 @@
 
   <!-- PASSWORD GENERATION TOAST ALERT -->
   <!-- CHANGE INNER TEXT HERE TO MAKE TOAST REUSABLE -->
+  <!-- add data attribute to switch between tabs and generate password using fields respectative to tabs -->
   <div class="toast-container position-fixed bottom-0 end-0 ">
-    <div id="generated-pass-alert-div" class="toast  bg-transparent text-white border-0 " role="alert"
+    <div id="generated-pass-alert-div" class="toast bg-transparent text-white border-0 " role="alert"
       aria-live="assertive" aria-atomic="true">
       <div class="toast-body mt-2 float-end">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

@@ -42,10 +42,10 @@ $(document).ready(function () {
   // GENERATED PASSWORD FIELD
   const generatedPasswordDiv = $('#generated-password-field')
 
-
-
-  // FORM CONTROLS
   // PASSWORD CHARACTER # INPUT
+  let tempPassword = [];
+  let finalPassword = [];
+  const combinedArrays = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
   const prefix = $('#prefix');
   const infix = $('#infix');
   const postfix = $('#postfix');
@@ -63,6 +63,16 @@ $(document).ready(function () {
 
 
   //********************************************************
+  //CUSTOM HASH OUTPUT 
+  //********************************************************
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
+    return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
+  }
+  sha256("TESTING THIS STRING!");
+console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
+
+  //********************************************************
   //CUSTOM NUMBER INPUT 
   //********************************************************
 
@@ -74,41 +84,16 @@ $(document).ready(function () {
   // const numInputCustom = $('#password-char-amount-custom')
 
   minusChar.click(() => {
-    console.log("You pressed the minus button!");
-
-    // if (Number(numInputCustom.val()) > minPasswordCharVal && Number(numInputCustom.val()) < maxPasswordCharVal) {
     if (Number(characterCount.val()) > minPasswordCharVal) {
       characterCount.val(Number(characterCount.val()) - 1);
-      console.log(`-Value: ${characterCount.val()}`)
     }
-
   })
 
   addChar.click(() => {
-    console.log("You pressed the add button!")
-    // if (Number(numInputCustom.val()) > minPasswordCharVal && Number(numInputCustom.val()) < maxPasswordCharVal) {
-      if (Number(characterCount.val()) < maxPasswordCharVal) {
-        characterCount.val(Number(characterCount.val()) + 1);
-      console.log(`+Value: ${characterCount.val()}`)
+    if (Number(characterCount.val()) < maxPasswordCharVal) {
+      characterCount.val(Number(characterCount.val()) + 1);
     }
-
-
   })
-
-
-
-  // function inc(element) {
-  //   let el = document.querySelector(`[name="${element}"]`);
-  //   el.value = parseInt(el.value) + 1;
-  // }
-
-  // function dec(element) {
-  //   let el = document.querySelector(`[name="${element}"]`);
-  //   if (parseInt(el.value) > 0) {
-  //     el.value = parseInt(el.value) - 1;
-  //   }
-  // }
-
 
 
   //********************************************************
@@ -116,6 +101,11 @@ $(document).ready(function () {
   //********************************************************
   if (generatePasswordTrigger) {
     // characterCount.val(characterCount.attr('placehAolder'));
+
+    // ENTRY POINT TO 
+
+
+
     characterCount.val(5);
     generatePasswordTrigger.click(() => {
       const successToast = bootstrap.Toast.getOrCreateInstance(generatedPassToast);
@@ -131,9 +121,7 @@ $(document).ready(function () {
   //********************************************************
 
   function generatePassword(charNumber) {
-    let tempPassword = [];
-    let finalPassword = [];
-    const combinedArrays = [alphaUpper, alphaLower, numbers, simpleSymbols, complexSymbols];
+
     let optionsStateArray = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
 
     for (var i = 0; i < optionsStateArray.length; i++) {
@@ -168,7 +156,8 @@ $(document).ready(function () {
 
     if (!infix.val()) {
       generatedPasswordDiv.val((prefix.val() + finalPassword.join("") + postfix.val()).replace(/\s/g, ''));
-
+      tempPassword = [];
+      finalPassword = [];
     } else {
       //INFIX
       let middleInt = Math.floor(finalPassword.length / 2);
@@ -176,7 +165,8 @@ $(document).ready(function () {
       console.log("No inffix! --> " + middleInt);
       finalPassword.splice(middleInt, 0, infix.val());
       generatedPasswordDiv.val((prefix.val() + finalPassword.join("") + postfix.val()).replace(/\s/g, ''));
-
+      tempPassword = [];
+      finalPassword = [];
 
       // EVEN & ODD INFIX PASSWORD PLACEMENT (NOT NECESSARY FLUFF )
       // if(finalPassword.length % 2 == 0 ){
@@ -250,7 +240,7 @@ $(document).ready(function () {
       const deactivated_pane = document.querySelector(event.relatedTarget.getAttribute('data-bs-target'))
 
       console.log(activated_pane.id)
-      console.log(deactivated_pane.id)
+      // console.log(deactivated_pane.id)
     })
   }
 
