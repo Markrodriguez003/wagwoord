@@ -189,45 +189,44 @@
       <div class="tab-pane fade" id="hash-tab-pane" role="tabpanel" aria-labelledby="has-tab" tabindex="0">
         <input type="text" class="form-control mb-2 mt-3 bg-dark text-white" placeholder="Enter passphrase to be hashed"
           aria-label="hash-choice-word" aria-describedby="">
-        <div class="mb-2">
-          <label class="form-check-label " for="inlineRadio1">Hash type: </label>
+        <div class="mb-2 hash-radio-options">
+          <label class="form-check-label " for="hash-type">Hash type: </label>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">SHA-512</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-1" value="SHA-1">
+            <label class="form-check-label" for="SHA-1">SHA-1</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">SHA-384</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-2(512)" value="SHA-2(512)">
+            <label class="form-check-label" for="SHA-2(512)">SHA-2 (512)</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">SHA-256</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-2(256)" value="SHA-2(256)">
+            <label class="form-check-label" for="SHA-2(256)">SHA-2 (256) </label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">SHA-1</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-3(512)" value="SHA-3(512)">
+            <label class="form-check-label" for="SHA-3(512)">SHA-3 (512)</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">MD-5</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-3(384)" value="SHA-3(384)">
+            <label class="form-check-label" for="SHA-3(384)">SHA-3 (384)</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">MD-4</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-3(256)" value="SHA-3(256)">
+            <label class="form-check-label" for="SHA-3(256)">SHA-3 (256)</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">CRC32</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="SHA-3(224)" value="SHA-3(224)">
+            <label class="form-check-label" for="SHA-3(224)">SHA-3 (224)</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">CRC32b</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="MD-5" value="MD-5">
+            <label class="form-check-label" for="MD-5">MD-5</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
-            <label class="form-check-label" for="inlineRadio3">RIPEMD160</label>
+            <input class="form-check-input" type="radio" name="hash-type-name" id="RIPEMD160" value="RIPEMD160">
+            <label class="form-check-label" for="RIPEMD160">RIPEMD160</label>
           </div>
-     
         </div>
       </div>
     </div>
@@ -294,6 +293,19 @@
 
   <!-- SCRIPTS -->
   <script src="js/neutralino.js"></script>
+
+  <script src="js/cryptoJS/index.min.js "></script>
+  <script src="js/cryptoJS/core.min.js"></script>
+  <script src="js/cryptoJS/crypto-js.min.js"></script>
+
+  <script src="js/cryptoJS/md5.min.js "></script>
+  <script src="js/cryptoJS/ripemd160.min.js "></script>
+  <script src="js/cryptoJS/sha1.min.js "></script>
+  <script src="js/cryptoJS/sha224.min.js "></script>
+  <script src="js/cryptoJS/sha256.min.js "></script>
+  <script src="js/cryptoJS/sha3.min.js "></script>
+  <script src="js/cryptoJS/sha384.min.js "></script>
+  <script src="js/cryptoJS/sha512.min.js "></script>
   <script src="js/bootstrap.bundle.js"></script>
   <script src="js/jquery.js"></script>
   <script src="js/main.js"></script>

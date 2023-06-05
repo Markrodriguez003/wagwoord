@@ -14,8 +14,8 @@ $(document).ready(function () {
   const alphaLower = "abcdefghijklmnopqrstuvwxyz";
   const alphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const numbers = "0123456789";
-  const simpleSymbols = "_!@#$%^&*?";
-  const complexSymbols = "^()|{}[]<>/;:~`-=+\"',";
+  const simpleSymbols = "!@#$%&*?";
+  const complexSymbols = "_^()|{}[]<>/;:~`-=+\"',";
   // "LEET or 1337 speak variant"
 
   // COPY PASSWORD BUTTON
@@ -62,15 +62,28 @@ $(document).ready(function () {
   let randomNumber;
 
 
+
+  //********************************************************
+  // TAB DETECTION / TRIGGER
+  //********************************************************
+  var generationTab = document.querySelectorAll('button[data-bs-toggle="pill"]')
+  let activated_pane;
+  let deactivated_pane;
+  for (i = 0; i < generationTab.length; i++) {
+    generationTab[i].addEventListener('shown.bs.tab', function (event) {
+      activated_pane = document.querySelector(event.target.getAttribute('data-bs-target'))
+      deactivated_pane = document.querySelector(event.relatedTarget.getAttribute('data-bs-target'))
+
+      console.log(activated_pane.id)
+      // console.log(deactivated_pane.id)
+    })
+  }
+
+
   //********************************************************
   //CUSTOM HASH OUTPUT 
   //********************************************************
-  async function sha256(str) {
-    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder("utf-8").encode(str));
-    return Array.prototype.map.call(new Uint8Array(buf), x=>(('00'+x.toString(16)).slice(-2))).join('');
-  }
-  sha256("TESTING THIS STRING!");
-console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
+
 
   //********************************************************
   //CUSTOM NUMBER INPUT 
@@ -97,22 +110,57 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
 
 
   //********************************************************
+  // HASH TYPE RADIO BUTTONS LISTENER
+  //********************************************************
+
+  let hashRadioTrigger;
+  $(".hash-radio-options div input[type='radio'] ") // select the radio by its id
+    .change(() => { // bind a function to the change event
+      hashRadioTrigger = $('input[name=hash-type-name]:checked').val();
+    });
+
+
+
+
+  //********************************************************
   //TOAST TRIGGER (GENERATE PASS, RESET PASS, ERROR STATE?)
   //********************************************************
   if (generatePasswordTrigger) {
     // characterCount.val(characterCount.attr('placehAolder'));
 
     // ENTRY POINT TO 
-
-
-
     characterCount.val(5);
+
+
+
+
     generatePasswordTrigger.click(() => {
+
       const successToast = bootstrap.Toast.getOrCreateInstance(generatedPassToast);
-      if ($('input[type=checkbox]:checked').length > 0) {
-        successToast.show();
-        generatePassword(characterCount.val());
-      } else console.log("Error state --> None of the checkboxes are loaded!")
+
+
+      if (activated_pane.id == "simple-tab-pane") {
+        console.log("SIMPLE TAB PANEL! " + activated_pane.id);
+        generateSimplePassword($("#pass-character-amount-simple").val())
+      } else if (activated_pane.id == "word-tab-pane") {
+        console.log("WORD TAB PANEL!" + activated_pane.id);
+      } else if (activated_pane.id == "Custom-tab-pane") {
+        console.log("CUSTOM TAB PANEL!" + activated_pane.id);
+        if ($('input[type=checkbox]:checked').length > 0) {
+          successToast.show();
+          generateCustomPassword(characterCount.val());
+        } else console.log("Error state --> None of the checkboxes are loaded!")
+      } else if (activated_pane.id == "hash-tab-pane") {
+        console.log("HASH TAB PANEL!" + activated_pane.id);
+        generateHashPassword(hashRadioTrigger);
+
+      } else {
+
+        console.log("ERROR!" + activated_pane.id);
+      }
+
+
+
     })
   }
 
@@ -120,7 +168,77 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
   //TOAST TRIGGER (GENERATE PASS, RESET PASS, ERROR STATE?)
   //********************************************************
 
-  function generatePassword(charNumber) {
+  function generateSimplePassword(charNumber) {
+    console.log("SIMPLE PASSWORD")
+    let tempPassword = [];
+    let randomArray;
+    let randomChar;
+    for (let x = 0; x < charNumber; x++) {
+      randomArray = Math.floor(Math.random() * 4);
+      randomChar = Math.floor(Math.random() * combinedArrays[randomArray].length);
+      tempPassword.push(combinedArrays[randomArray][randomChar]);
+
+    }
+
+    // console.log("temp password for simple password --> " + tempPassword.join(""));
+    generatedPasswordDiv.val(tempPassword.join(""));
+  }
+
+  function generateWordPassword(charNumber) {
+    console.log("WORD PASSWORD")
+  }
+
+
+
+  //********************************************************
+  //GENERATE HASH PASSWORD
+  //********************************************************
+  function generateHashPassword(hashType, phrase = "default") {
+    console.log("INSERT HASH GENERATION");
+    var hash;
+
+    switch (hashType) {
+      case "SHA-1":
+        hash = CryptoJS.SHA1(phrase);
+        break;
+      case "SHA-2(256)":
+        hash = CryptoJS.SHA256(phrase);
+        break;
+      case "SHA-2(512)":
+        hash = CryptoJS.SHA512(phrase);
+        break;
+      case "SHA-3(224)":
+        hash = CryptoJS.SHA3(phrase, { outputLength: 224 });
+        break;
+      case "SHA-3(256)":
+        hash = CryptoJS.SHA3(phrase, { outputLength: 256 });
+        break;
+      case "SHA-3(384)":
+        hash = CryptoJS.SHA3(phrase, { outputLength: 384 });
+        break;
+      case "SHA-3(512)":
+        hash = CryptoJS.SHA3(phrase, { outputLength: 512 });
+        break;
+      case "MD-5":
+        hash = CryptoJS.MD5(phrase);
+        break;
+      case "RIPEMD160":
+        hash = CryptoJS.RIPEMD160(phrase);
+        break;
+      default:
+        console.log("NO HASH")
+      // return hash;
+    }
+
+    generatedPasswordDiv.val("");
+    generatedPasswordDiv.val(hash.toString(CryptoJS.enc.Base64));
+    // return hash.toString(CryptoJS.enc.Base64);
+    // console.log("HASH? --> " + hash); // THIS IS NOT THE PASSWORD ITSELF.. BUT A WORD ARRAY OBJECT
+    // console.log("HASH? --> " + hash.toString(CryptoJS.enc.Base64)); // THIS WORKS!
+  }
+
+
+  function generateCustomPassword(charNumber) {
 
     let optionsStateArray = [uppercaseChk.prop('checked'), lowercaseChk.prop('checked'), numbersChk.prop('checked'), simpleSymbolsChk.prop('checked'), complexSymbolsChk.prop('checked')];
 
@@ -130,8 +248,9 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
         randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
         tempPassword.push(combinedArrays[i][randomNumber]);
         // CREATES A BANK OF EXTRA CHARACTERS PER CHECKED "TRUE" CHARACTER ARRAY
-        // console.log("This is the temporary password: " + tempPassword.join("") )
-        for (var x = 0; x < 10; x++) {
+
+
+        for (var x = 0; x < 15; x++) {
           randomNumber = Math.floor(Math.random() * combinedArrays[i].length);
           scrambledExtraChars.push(combinedArrays[i][randomNumber]);
         }
@@ -140,9 +259,6 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
 
     scrambledExtraChars = shuffleArray(scrambledExtraChars);
     let restPasswordLength = charNumber - tempPassword.length;
-    console.log("set password length? --> " + charNumber);
-    console.log("resetPasswordLength --> " + restPasswordLength);
-    console.log("tempPassword --> " + tempPassword.length);
     if (restPasswordLength === 0) {
       finalPassword = shuffleArray(tempPassword);
 
@@ -161,8 +277,6 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
     } else {
       //INFIX
       let middleInt = Math.floor(finalPassword.length / 2);
-      console.log("Final password --> " + finalPassword.join(""));
-      console.log("No inffix! --> " + middleInt);
       finalPassword.splice(middleInt, 0, infix.val());
       generatedPasswordDiv.val((prefix.val() + finalPassword.join("") + postfix.val()).replace(/\s/g, ''));
       tempPassword = [];
@@ -197,7 +311,6 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
   }
 
   copyBtn.click(() => {
-    console.log("COPIED!")
     generatedPasswordDiv.select();
     // generatedPasswordDiv.setSelectionRange(0, 99999); // For mobile devices
     navigator.clipboard.writeText(generatedPasswordDiv.val());
@@ -229,22 +342,6 @@ console.log(`hash sha-256 = ${sha256("TESTING THIS STRING!".buf)}`)
     console.clear();
 
   })
-
-
-  // TAB DETECTION / TRIGGER
-  var tabEl = document.querySelectorAll('button[data-bs-toggle="pill"]')
-  //console.log(tabEl)
-  for (i = 0; i < tabEl.length; i++) {
-    tabEl[i].addEventListener('shown.bs.tab', function (event) {
-      const activated_pane = document.querySelector(event.target.getAttribute('data-bs-target'))
-      const deactivated_pane = document.querySelector(event.relatedTarget.getAttribute('data-bs-target'))
-
-      console.log(activated_pane.id)
-      // console.log(deactivated_pane.id)
-    })
-  }
-
-
 
 
 });
