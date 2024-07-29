@@ -1,15 +1,6 @@
-# neutralinojs-minimal
+# Wagwoord
 
-The default template for a Neutralinojs app. It's possible to use your favorite frontend framework by using [these steps](https://neutralino.js.org/docs/how-to/use-a-frontend-library).
+Wagwoord is a simple password creation app with various adjustable settings. 
 
-## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=neutralinojs/neutralinojs-minimal)](https://github.com/neutralinojs/neutralinojs-minimal/graphs/contributors)
-
-## License
-
-[MIT](LICENSE)
-
-## Icon credits
-
-- `trayIcon.png` - Made by [Freepik](https://www.freepik.com) and downloaded from [Flaticon](https://www.flaticon.com)
+  
