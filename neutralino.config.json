@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/neutralinojs/neutralinojs/main/schemas/neutralino.config.schema.json",
-  "applicationId": "js.neutralino.sample",
+  "applicationId": "js.neutralino.wagwoord",
   "version": "1.0.0",
   "defaultMode": "window",
   "port": 0,
@@ -33,19 +33,19 @@
   "modes": {
     "window": {
       "title": "WagWoord - Password Generator",
-      "width": 600,
-      "height": 468,
+      "width": 650,
+      "height": 605,
       "minWidth": 400,
       "minHeight": 200,
       "fullScreen": false,
       "alwaysOnTop": false,
       "icon": "/resources/icons/appIcon.png",
-      "enableInspector": true,
+      "enableInspector": false,
       "borderless": false,
       "maximize": false,
       "hidden": false,
       "resizable": false,
-      "exitProcessOnClose": false
+      "exitProcessOnClose": true
     },
     "browser": {
       "globalVariables": {

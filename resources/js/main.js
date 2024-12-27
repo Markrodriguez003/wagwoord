@@ -67,14 +67,14 @@ $(document).ready(function () {
   // TAB DETECTION / TRIGGER
   //********************************************************
   var generationTab = document.querySelectorAll('button[data-bs-toggle="pill"]')
-  let activated_pane;
+  let activated_pane = "#Custom-tab-panel";
   let deactivated_pane;
   for (i = 0; i < generationTab.length; i++) {
     generationTab[i].addEventListener('shown.bs.tab', function (event) {
       activated_pane = document.querySelector(event.target.getAttribute('data-bs-target'))
       deactivated_pane = document.querySelector(event.relatedTarget.getAttribute('data-bs-target'))
 
-      console.log(activated_pane.id)
+      // console.log(activated_pane.id)
       // console.log(deactivated_pane.id)
     })
   }
