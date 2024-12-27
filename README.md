@@ -8,7 +8,8 @@ This application helps users create a custom password with robust password creat
  
 
 #### FUTURE PLANS
-- Have a password strength checker to see if password generated is strong
+- Have a password strength checker to see if password generated is safe to use as password
+- LEET/ASCII art password generator
 - Password keychain for prior generated passwords and logs 
 
 #### CONTACT
